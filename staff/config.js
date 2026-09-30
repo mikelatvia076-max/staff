@@ -1,8 +1,11 @@
-// API_URL: leave "" when the portal pages and server are deployed together (default).
-const API_URL = "https://hosiportal.onrender.com";
-// Your deployed hospital system (no trailing slash)
-const HOSPITAL_URL = "https://YOUR-HOSPITAL-SITE.vercel.app";
-// =====================================
-// AGNES MEMORIAL MEDICAL HOSPITAL
-// FRONTEND CONFIG  (load this BEFORE any other script)
-// =====================================
+// ============================================================
+// PUT YOUR URLS BETWEEN THE QUOTES BELOW (no trailing slash "/")
+// ============================================================
+
+// 1) Your BACKEND address (Render Web Service that runs server.js)
+//    Example: "https://agnes-backend.onrender.com"
+const API_URL = "https://serverportal-85rn.onrender.com";
+
+// 2) Your HOSPITAL website address
+//    Example: "https://agnes-hospital.onrender.com"
+const HOSPITAL_URL = "https://hosiportal.onrender.com";
