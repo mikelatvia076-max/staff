@@ -9,8 +9,24 @@ let lastCred = "";
 
 function toast(text, isErr) {
     const t = $("toast");
-    t.textContent = text; t.className = "show" + (isErr ? " err" : "");
+    t.innerHTML = '<i class="fa-solid ' + (isErr ? "fa-circle-exclamation" : "fa-circle-check") + '"></i><span>' + esc(text) + '</span>';
+    t.className = "show" + (isErr ? " err" : "");
     clearTimeout(toast.t); toast.t = setTimeout(() => (t.className = ""), 3200);
+}
+
+// ---------- styled confirm box (replaces the plain browser confirm) ----------
+function ask(title, text, okText, danger) {
+    return new Promise((resolve) => {
+        const d = $("confirmDialog");
+        $("qTitle").textContent = title; $("qText").textContent = text; $("qOk").textContent = okText || "Yes";
+        $("qIcon").className = "fa-solid " + (danger ? "fa-triangle-exclamation" : "fa-key");
+        d.className = "ask" + (danger ? " danger" : "");
+        const done = (v) => { d.close(); resolve(v); };
+        $("qOk").onclick = () => done(true);
+        $("qCancel").onclick = () => done(false);
+        d.oncancel = (e) => { e.preventDefault(); done(false); };
+        d.showModal();
+    });
 }
 
 async function call(path, method, body, noRedirect) {
@@ -28,7 +44,7 @@ async function call(path, method, body, noRedirect) {
 // ---------- screens ----------
 function enter(admin) {
     $("authSection").hidden = true; $("appSection").hidden = false; $("topNav").hidden = false;
-    $("who").textContent = admin.name;
+    $("who").innerHTML = '<i class="fa fa-user-shield"></i> Administrator';
     loadEmployees();
 }
 function logout() {
@@ -117,10 +133,10 @@ $("empBody").addEventListener("click", async (e) => {
     const emp = employees.find((x) => String(x.id) === b.dataset.id); if (!emp) return;
     try {
         if (b.dataset.act === "delete") {
-            if (!confirm("Permanently delete " + emp.username + "? Their login is removed and this cannot be undone.")) return;
+            if (!(await ask("Delete employee?", "Permanently delete " + emp.username + "? Their login is removed and this cannot be undone.", "Yes, delete", true))) return;
             toast((await call("/employees/" + emp.id, "DELETE")).message);
         } else {
-            if (!confirm("Reset the password for " + emp.username + "? The current password will stop working.")) return;
+            if (!(await ask("Reset password?", "Reset the password for " + emp.username + "? The current password will stop working.", "Yes, reset", false))) return;
             const d = await call("/employees/" + emp.id + "/reset-password", "POST");
             showCreds(d.credentials, d.employee, "Password reset. Give the new temporary password to the employee.");
         }
@@ -143,7 +159,7 @@ $("reqBody").addEventListener("click", async (e) => {
     const b = e.target.closest("button[data-act]"); if (!b) return;
     try {
         if (b.dataset.act === "req-reset") {
-            if (!confirm("Give this employee a new temporary password?")) return;
+            if (!(await ask("Reset password?", "Give this employee a new temporary password? The old one will stop working.", "Yes, reset", false))) return;
             const d = await call("/employees/" + b.dataset.emp + "/reset-password", "POST");
             showCreds(d.credentials, d.employee, "Password reset. Give the new temporary password to the employee.");
         } else await call("/password-requests/" + b.dataset.id + "/dismiss", "POST");
