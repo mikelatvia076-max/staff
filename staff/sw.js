@@ -1,5 +1,5 @@
 // Agnes Staff Portal - service worker (lets the app install and open offline)
-const CACHE = "agnes-staff-v1";
+const CACHE = "agnes-staff-v2";
 const SHELL = ["./", "index.html", "staff-portal.css", "portal.js", "config.js", "pwa.js", "manifest.json", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {
@@ -18,7 +18,9 @@ self.addEventListener("activate", (e) => {
 // Only this site's own files are handled. Backend (API) calls always go straight to the network.
 self.addEventListener("fetch", (e) => {
   const req = e.request;
-  if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
+  const url = new URL(req.url);
+  if (req.method !== "GET" || url.origin !== location.origin) return;
+  if (url.searchParams.has("ping")) return;   // connection check: always ask the real network, never the cache
   e.respondWith(
     fetch(req)
       .then((res) => {
