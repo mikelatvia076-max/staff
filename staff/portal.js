@@ -15,17 +15,25 @@ function toast(text, isErr) {
 }
 
 // ---------- styled confirm box (replaces the plain browser confirm) ----------
-function ask(title, text, okText, danger) {
+function ask(title, text, okText, danger, withPassword) {
     return new Promise((resolve) => {
-        const d = $("confirmDialog");
+        const d = $("confirmDialog"), pass = $("qPass");
         $("qTitle").textContent = title; $("qText").textContent = text; $("qOk").textContent = okText || "Yes";
         $("qIcon").className = "fa-solid " + (danger ? "fa-triangle-exclamation" : "fa-key");
         d.className = "ask" + (danger ? " danger" : "");
+        pass.hidden = !withPassword; pass.value = ""; pass.className = "";
         const done = (v) => { d.close(); resolve(v); };
-        $("qOk").onclick = () => done(true);
-        $("qCancel").onclick = () => done(false);
-        d.oncancel = (e) => { e.preventDefault(); done(false); };
+        $("qOk").onclick = () => {
+            if (withPassword) {
+                if (!pass.value) { pass.className = "bad"; pass.focus(); return; }
+                return done(pass.value);   // resolves with the typed password
+            }
+            done(true);
+        };
+        $("qCancel").onclick = () => done(withPassword ? null : false);
+        d.oncancel = (e) => { e.preventDefault(); done(withPassword ? null : false); };
         d.showModal();
+        if (withPassword) pass.focus();
     });
 }
 
@@ -52,6 +60,18 @@ function logout() {
     $("appSection").hidden = true; $("topNav").hidden = true; $("authSection").hidden = false;
 }
 $("logoutBtn").onclick = logout;
+
+$("deleteAccBtn").onclick = async () => {
+    const password = await ask("Delete your account?",
+        "Your portal administrator account will be permanently removed and you will be logged out. Staff logins you created are not affected. Enter your password to confirm.",
+        "Yes, delete my account", true, true);
+    if (!password) return;
+    try {
+        await call("/account/delete", "POST", { password });
+        logout();
+        toast("Your account has been deleted");
+    } catch (err) { toast(err.message, true); }
+};
 
 function tab(signup) {
     $("loginForm").hidden = signup; $("signupForm").hidden = !signup;
