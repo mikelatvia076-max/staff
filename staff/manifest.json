@@ -1,0 +1,16 @@
+{
+  "name": "Agnes Memorial Staff Portal",
+  "short_name": "Agnes Staff",
+  "description": "Register and manage Agnes Memorial Medical Hospital staff logins.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#093541",
+  "theme_color": "#093541",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

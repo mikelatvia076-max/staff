@@ -204,3 +204,9 @@ dialog.ask.danger #qOk{background:var(--red);color:#fff}dialog.ask.danger #qOk:h
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pulse path{stroke-dashoffset:0}}
 @media print{.no-print{display:none!important}body{background:#fff}dialog{position:static;box-shadow:none;width:100%}dialog::backdrop{display:none}}
+
+/* ---------- install app ---------- */
+.auth-card .js-install{margin-top:14px}
+.ios-hint{margin:14px 0 0;text-align:center}
+.ios-hint i{color:var(--teal);margin-right:6px}
+@media (display-mode:standalone){.js-install,.ios-hint{display:none!important}}

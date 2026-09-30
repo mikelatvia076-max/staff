@@ -13,3 +13,7 @@ Portal accounts: administrators create their own portal account on the "Create p
 This needs the registration code set in PORTAL_SIGNUP_CODE on the backend.
 
 Deploy (Render Static Site): Build command empty, Publish directory `.`
+Installable app (PWA):
+Files manifest.json, sw.js, pwa.js, icon-192.png and icon-512.png sit in the repo root next to index.html.
+The site must be opened over https (Render does this). Android/Chrome shows an "Install app" button; on iPhone use Share > Add to Home Screen.
+After changing site files, bump CACHE in sw.js (e.g. agnes-staff-v2) so installed copies refresh.

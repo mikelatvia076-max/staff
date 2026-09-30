@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Staff Portal - Agnes Memorial</title>
+<meta name="theme-color" content="#093541">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Agnes Staff">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -15,6 +24,7 @@
   <div class="brand"><span class="mark"><i class="fa-solid fa-heart-pulse"></i></span> Agnes Memorial <small>Staff Portal</small></div>
   <nav id="topNav" hidden>
     <span id="who"></span>
+    <button class="btn js-install" type="button" hidden><i class="fa fa-download"></i> Install app</button>
     <button class="btn" id="logoutBtn"><i class="fa fa-right-from-bracket"></i> Log out</button>
     <button class="btn danger" id="deleteAccBtn"><i class="fa fa-user-xmark"></i> Delete account</button>
   </nav>
@@ -60,6 +70,8 @@
           <p id="sMsg" class="error" role="alert"></p>
           <button class="btn block" type="submit" id="sBtn"><i class="fa fa-user-plus"></i> Create account</button>
         </form>
+        <button class="btn ghost block js-install" type="button" hidden><i class="fa fa-download"></i> Install app on this device</button>
+        <p class="hint ios-hint" id="iosHint" hidden><i class="fa-solid fa-arrow-up-from-bracket"></i> To install on iPhone: tap Share, then Add to Home Screen.</p>
       </div>
     </div>
   </section>
@@ -149,5 +161,6 @@
 
 <script src="config.js"></script>
 <script src="portal.js"></script>
+<script src="pwa.js"></script>
 </body>
 </html>
