@@ -136,10 +136,13 @@ $("empForm").addEventListener("submit", async (e) => {
 
 // ---------- list / delete / reset ----------
 function renderEmployees() {
-    $("empCount").textContent = "(" + employees.length + ")";
+    $("empCount").textContent = "(" + employees.length + ")"; $("stEmp").textContent = employees.length;
     $("empBody").innerHTML = employees.length ? employees.map((e) =>
-        "<tr><td>" + esc(e.employee_id) + "</td><td>" + esc(e.username) + "</td><td>" + esc(e.email) + "</td>" +
-        "<td>" + esc(e.role) + "</td><td>" + esc(e.last_login || "Never") + "</td>" +
+        '<tr><td data-label="ID">' + esc(e.employee_id) + '</td>' +
+        '<td data-label="Username" class="main-cell"><span class="who"><span class="av">' + esc(String(e.username || "?").charAt(0)) + "</span>" + esc(e.username) + "</span></td>" +
+        '<td data-label="Email">' + esc(e.email) + "</td>" +
+        '<td data-label="Role"><span class="badge r-' + esc(String(e.role || "").toLowerCase()) + '">' + esc(e.role) + "</span></td>" +
+        '<td data-label="Last login">' + esc(e.last_login || "Never") + "</td>" +
         '<td class="acts"><button class="btn sm ghost" data-act="reset" data-id="' + e.id + '">Reset password</button>' +
         '<button class="btn sm danger" data-act="delete" data-id="' + e.id + '">Delete</button></td></tr>').join("")
         : '<tr><td colspan="6" class="empty">No employees yet.</td></tr>';
@@ -168,9 +171,9 @@ $("empBody").addEventListener("click", async (e) => {
 async function loadRequests() {
     try {
         const list = await call("/password-requests");
-        $("reqCard").hidden = !list.length; $("reqCount").textContent = "(" + list.length + ")";
+        $("stReq").textContent = list.length; $("reqCard").hidden = !list.length; $("reqCount").textContent = "(" + list.length + ")";
         $("reqBody").innerHTML = list.map((r) =>
-            "<tr><td>" + esc(r.name) + "</td><td>" + esc(r.username) + "</td><td>" + esc(r.created_at) + "</td>" +
+            '<tr><td data-label="Name" class="main-cell">' + esc(r.name) + '</td><td data-label="Username">' + esc(r.username) + '</td><td data-label="Requested">' + esc(r.created_at) + "</td>" +
             '<td class="acts"><button class="btn sm ghost" data-act="req-reset" data-emp="' + r.employee_id + '">Reset password</button>' +
             '<button class="btn sm danger" data-act="req-dismiss" data-id="' + r.id + '">Dismiss</button></td></tr>').join("");
     } catch (err) { /* ignore */ }

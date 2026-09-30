@@ -4,14 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Staff Portal - Agnes Memorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="staff-portal.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
 <header class="top no-print">
-  <div class="brand"><i class="fa-solid fa-hospital"></i> Agnes Memorial - Staff Portal</div>
+  <div class="brand"><span class="mark"><i class="fa-solid fa-heart-pulse"></i></span> Agnes Memorial <small>Staff Portal</small></div>
   <nav id="topNav" hidden>
-    <span id="who" style="align-self:center"></span>
+    <span id="who"></span>
     <button class="btn" id="logoutBtn"><i class="fa fa-right-from-bracket"></i> Log out</button>
     <button class="btn danger" id="deleteAccBtn"><i class="fa fa-user-xmark"></i> Delete account</button>
   </nav>
@@ -19,32 +22,62 @@
 
 <main class="no-print">
   <!-- Portal login / sign-up -->
-  <section class="card" id="authSection" style="max-width:440px;margin:30px auto 0;width:100%">
-    <div class="actions" style="justify-content:flex-start;margin:0 0 14px">
-      <button class="btn" id="tabLogin" type="button">Log in</button>
-      <button class="btn ghost" id="tabSignup" type="button">Create portal account</button>
+  <section class="auth" id="authSection">
+    <aside class="auth-art">
+      <div class="brand"><span class="mark"><i class="fa-solid fa-heart-pulse"></i></span> Agnes Memorial</div>
+      <div class="art-copy">
+        <h1>Every careful hand starts with a secure login.</h1>
+        <p>Register doctors, nurses and pharmacy staff, reset passwords and keep access tidy, all from one place.</p>
+        <ul>
+          <li><i class="fa-solid fa-user-plus"></i> Create staff logins in seconds</li>
+          <li><i class="fa-solid fa-key"></i> Temporary passwords, changed at first login</li>
+          <li><i class="fa-solid fa-shield-heart"></i> Administrators only</li>
+        </ul>
+      </div>
+      <svg class="pulse" viewBox="0 0 600 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40h180l20-28 28 58 26-44 14 14h332" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </aside>
+    <div class="auth-panel">
+      <div class="card auth-card">
+        <div class="tabs">
+          <button class="btn" id="tabLogin" type="button">Log in</button>
+          <button class="btn ghost" id="tabSignup" type="button">Create account</button>
+        </div>
+        <form id="loginForm">
+          <h2>Welcome back</h2>
+          <p class="hint">Log in to manage hospital staff accounts.</p>
+          <label>Username<input id="lUser" autocomplete="username" autocapitalize="none" required></label>
+          <label>Password<input id="lPass" type="password" autocomplete="current-password" required></label>
+          <p id="lMsg" class="error" role="alert"></p>
+          <button class="btn block" type="submit" id="lBtn"><i class="fa fa-right-to-bracket"></i> Log in</button>
+        </form>
+        <form id="signupForm" hidden>
+          <h2>Create portal account</h2>
+          <p class="hint">For administrators who register hospital staff. You need the registration code from the system owner.</p>
+          <label>Full name<input id="sName" maxlength="150" required></label>
+          <label>Username<input id="sUser" autocomplete="username" autocapitalize="none" maxlength="60" required></label>
+          <label>Password (8+ characters, letters and numbers)<input id="sPass" type="password" autocomplete="new-password" minlength="8" required></label>
+          <label>Registration code<input id="sCode" type="password" autocomplete="off" required></label>
+          <p id="sMsg" class="error" role="alert"></p>
+          <button class="btn block" type="submit" id="sBtn"><i class="fa fa-user-plus"></i> Create account</button>
+        </form>
+      </div>
     </div>
-    <form id="loginForm">
-      <label>Username<input id="lUser" autocomplete="username" autocapitalize="none" required></label>
-      <label>Password<input id="lPass" type="password" autocomplete="current-password" required></label>
-      <p id="lMsg" class="error" role="alert"></p>
-      <button class="btn" type="submit" id="lBtn"><i class="fa fa-right-to-bracket"></i> Log in</button>
-    </form>
-    <form id="signupForm" hidden>
-      <p class="hint">Portal accounts are for administrators who register hospital staff. You need the registration code from the system owner.</p>
-      <label>Full name<input id="sName" maxlength="150" required></label>
-      <label>Username<input id="sUser" autocomplete="username" autocapitalize="none" maxlength="60" required></label>
-      <label>Password (8+ characters, letters and numbers)<input id="sPass" type="password" autocomplete="new-password" minlength="8" required></label>
-      <label>Registration code<input id="sCode" type="password" autocomplete="off" required></label>
-      <p id="sMsg" class="error" role="alert"></p>
-      <button class="btn" type="submit" id="sBtn"><i class="fa fa-user-plus"></i> Create account</button>
-    </form>
   </section>
 
   <!-- Dashboard -->
   <section id="appSection" hidden>
+    <div class="hero">
+      <div>
+        <h1>Staff accounts</h1>
+        <p>Register new hospital staff and keep existing logins under control.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><i class="fa-solid fa-user-doctor"></i><b id="stEmp">0</b><span>Employees</span></div>
+        <div class="stat"><i class="fa-solid fa-key"></i><b id="stReq">0</b><span>Password requests</span></div>
+      </div>
+    </div>
     <div class="card">
-      <h2>Register hospital staff login</h2>
+      <h2><i class="fa-solid fa-user-plus"></i> Register hospital staff login</h2>
       <p class="hint">These are the details the employee uses on the hospital login page. They will be asked to choose their own password at first login.</p>
       <form id="empForm" class="grid">
         <label>Username<input id="eUser" autocapitalize="none" maxlength="60" required></label>
@@ -66,7 +99,7 @@
     </div>
 
     <div class="card" id="reqCard" hidden>
-      <h2>Forgot-password requests <span class="count" id="reqCount"></span></h2>
+      <h2><i class="fa-solid fa-key"></i> Forgot-password requests <span class="count" id="reqCount"></span></h2>
       <div class="scroll"><table>
         <thead><tr><th>Name</th><th>Username</th><th>Requested</th><th>Actions</th></tr></thead>
         <tbody id="reqBody"></tbody>
@@ -74,7 +107,7 @@
     </div>
 
     <div class="card">
-      <h2>Employees <span class="count" id="empCount"></span></h2>
+      <h2><i class="fa-solid fa-users"></i> Employees <span class="count" id="empCount"></span></h2>
       <div class="scroll"><table>
         <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Last login</th><th>Actions</th></tr></thead>
         <tbody id="empBody"></tbody>
