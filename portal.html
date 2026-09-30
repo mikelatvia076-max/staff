@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Portal - Agnes Memorial</title>
+<link rel="stylesheet" href="staff-portal.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+<header class="top no-print">
+  <div class="brand"><i class="fa-solid fa-hospital"></i> Agnes Memorial - Staff Portal</div>
+  <nav id="topNav" hidden>
+    <span id="who" style="align-self:center"></span>
+    <button class="btn" id="logoutBtn"><i class="fa fa-right-from-bracket"></i> Log out</button>
+  </nav>
+</header>
+
+<main class="no-print">
+  <!-- Portal login / sign-up -->
+  <section class="card" id="authSection" style="max-width:440px;margin:30px auto 0;width:100%">
+    <div class="actions" style="justify-content:flex-start;margin:0 0 14px">
+      <button class="btn" id="tabLogin" type="button">Log in</button>
+      <button class="btn ghost" id="tabSignup" type="button">Create portal account</button>
+    </div>
+    <form id="loginForm">
+      <label>Username<input id="lUser" autocomplete="username" autocapitalize="none" required></label>
+      <label>Password<input id="lPass" type="password" autocomplete="current-password" required></label>
+      <p id="lMsg" class="error" role="alert"></p>
+      <button class="btn" type="submit" id="lBtn"><i class="fa fa-right-to-bracket"></i> Log in</button>
+    </form>
+    <form id="signupForm" hidden>
+      <p class="hint">Portal accounts are for administrators who register hospital staff. You need the registration code from the system owner.</p>
+      <label>Full name<input id="sName" maxlength="150" required></label>
+      <label>Username<input id="sUser" autocomplete="username" autocapitalize="none" maxlength="60" required></label>
+      <label>Password (8+ characters, letters and numbers)<input id="sPass" type="password" autocomplete="new-password" minlength="8" required></label>
+      <label>Registration code<input id="sCode" type="password" autocomplete="off" required></label>
+      <p id="sMsg" class="error" role="alert"></p>
+      <button class="btn" type="submit" id="sBtn"><i class="fa fa-user-plus"></i> Create account</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="appSection" hidden>
+    <div class="card">
+      <h2>Register hospital staff login</h2>
+      <p class="hint">These are the details the employee uses on the hospital login page. They will be asked to choose their own password at first login.</p>
+      <form id="empForm" class="grid">
+        <label>Username<input id="eUser" autocapitalize="none" maxlength="60" required></label>
+        <label>Email<input id="eEmail" type="email" maxlength="191" required></label>
+        <label>Full name (optional)<input id="eName" maxlength="150"></label>
+        <label>Role
+          <select id="eRole" required>
+            <option value="" disabled selected>Select role</option>
+            <option>Admin</option><option>Doctor</option><option>Nurse</option>
+            <option>Receptionist</option><option>Pharmacist</option><option>Laboratory</option>
+          </select>
+        </label>
+        <label>Temporary password<input id="ePass" minlength="8" autocomplete="off" required></label>
+        <div class="end" style="gap:8px">
+          <button class="btn ghost" type="button" id="genBtn"><i class="fa fa-wand-magic-sparkles"></i> Generate</button>
+          <button class="btn" type="submit" id="empBtn"><i class="fa fa-user-plus"></i> Register</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" id="reqCard" hidden>
+      <h2>Forgot-password requests <span class="count" id="reqCount"></span></h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Name</th><th>Username</th><th>Requested</th><th>Actions</th></tr></thead>
+        <tbody id="reqBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h2>Employees <span class="count" id="empCount"></span></h2>
+      <div class="scroll"><table>
+        <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Last login</th><th>Actions</th></tr></thead>
+        <tbody id="empBody"></tbody>
+      </table></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="credDialog">
+  <div class="slip">
+    <h2><i class="fa-solid fa-hospital"></i> Agnes Memorial Medical Hospital</h2>
+    <p id="credTitle" class="hint"></p>
+    <dl class="info one">
+      <div><dt>Role</dt><dd id="cRole"></dd></div>
+      <div><dt>Email</dt><dd id="cEmail"></dd></div>
+      <div><dt>Login page</dt><dd id="cUrl"></dd></div>
+      <div><dt>Username</dt><dd id="cUser" class="mono"></dd></div>
+      <div><dt>Temporary password</dt><dd id="cPass" class="mono"></dd></div>
+    </dl>
+    <p class="hint">Shown only once. Choose your own password the first time you log in.</p>
+  </div>
+  <div class="actions no-print">
+    <button class="btn ghost" id="copyBtn"><i class="fa fa-copy"></i> Copy</button>
+    <button class="btn ghost" id="printBtn"><i class="fa fa-print"></i> Print</button>
+    <button class="btn" id="credClose">Done</button>
+  </div>
+</dialog>
+<div id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script src="portal.js"></script>
+</body>
+</html>
